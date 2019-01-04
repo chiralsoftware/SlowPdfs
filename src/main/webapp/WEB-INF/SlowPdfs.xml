@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context docBase="/opt/SlowPdfs-1.0-SNAPSHOT.war">
+  <Parameter name="WEBSOCKET_BASE" value="wss://chiralsoftware.com/SlowPdfs" override="true"/>
+</Context>

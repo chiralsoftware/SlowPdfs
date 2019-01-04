@@ -1,0 +1,49 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"  >
+    <head>
+        <title>Generate large ZIPs of PDFs</title>
+        <link rel="stylesheet" href="style.css"/>
+        <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@5.0.0/bundles/stomp.umd.js"></script>
+        <script src="//code.jquery.com/jquery-3.3.1.js"></script>
+        <script th:inline="javascript">
+            var WEBSOCKET_BASE = /*[[${@environment.getProperty('WEBSOCKET_BASE')}]]*/ "";
+            if(WEBSOCKET_BASE === 'null') WEBSOCKET_BASE = null;
+            var WEBSOCKET_URL = "";
+            if(WEBSOCKET_BASE) WEBSOCKET_URL = WEBSOCKET_BASE + "/mystatus";
+            else WEBSOCKET_URL = 'ws://localhost:8080/SlowPdfs/mystatus';
+            console.log("This is the websocket base: " + WEBSOCKET_BASE + " and this is the WEBSOCKET_URL: " + WEBSOCKET_URL);
+        </script>
+        <script src="action.js"></script>
+    </head>
+    <body>
+        <h1>Generate large ZIPs of PDFs</h1>
+        
+        <p>This page demonstrates long-running tasks, specifically, generating a large  number of
+        PDFs in big ZIP files and taking time to do it.</p>
+        
+        <p>
+            How many PDFs? <input name="number" id="number" value="100" type="number" min="1"/>
+        </p>
+        <p>
+            <button id="startButton">Generate ZIP file</button>
+        </p>
+        <div>
+            <progress id="fileProgress" value="0"></progress>
+            <span id="message"></span>
+        </div>
+        
+        <h2>Results</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Report name</th>
+                    <th>Download</th>
+                </tr>
+            </thead>
+            <tbody  id="results">
+            </tbody>
+        </table>
+        
+    </body>
+</html>
