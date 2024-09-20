@@ -20,27 +20,28 @@ import static java.util.Map.of;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
-import static javax.servlet.http.HttpServletResponse.SC_OK;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletResponse;
+import static jakarta.servlet.http.HttpServletResponse.SC_NOT_FOUND;
+import static jakarta.servlet.http.HttpServletResponse.SC_OK;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import lombok.RequiredArgsConstructor;
 
 /**
  * A Service which generates ZIP files of PDFs ... slowly, in the background
  */
 @Controller
+@RequiredArgsConstructor
 public class GenerateService {
 
     private static final Logger LOG = Logger.getLogger(GenerateService.class.getName());
     
-    @Autowired
-    private SimpMessagingTemplate template;
+    private final SimpMessagingTemplate template;
     
     private byte[] generatePdf(int count) throws Exception {
         final Document document = new Document(LETTER, 72, 72, 72, 72); // document with one inch margins
