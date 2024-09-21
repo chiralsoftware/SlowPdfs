@@ -34,14 +34,14 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
             LOG.info("WEBSOCKET_BASE: " + websocketBase);        
         
         if(websocketBase == null) {
-            stompEndpointRegistry.addEndpoint("/mystatus");
+            stompEndpointRegistry.addEndpoint("/mystatus").withSockJS();
             return;
         }
         final Pattern pattern = compile(websocketMatcher);
         final Matcher matcher = pattern.matcher(websocketBase);
         if(! matcher.matches()) {
             LOG.warning("Could not parse the websocket base url: " + websocketBase + " with matcher: " + websocketMatcher);
-            stompEndpointRegistry.addEndpoint("/mystatus");
+            stompEndpointRegistry.addEndpoint("/mystatus").withSockJS();
             return;
         }
         final StringBuilder myOrigin = new StringBuilder();
@@ -55,7 +55,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         if(matcher.group("context") != null) 
             LOG.info("Found this context: " + matcher.group("context"));
         LOG.info("myOirgin is; "  + myOrigin);
-        stompEndpointRegistry.addEndpoint("/mystatus").setAllowedOrigins(myOrigin.toString());
+        stompEndpointRegistry.addEndpoint("/mystatus").
+                setAllowedOrigins(myOrigin.toString()).
+                withSockJS();
     }
 
     @Override

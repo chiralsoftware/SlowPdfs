@@ -3,8 +3,9 @@
     <head>
         <title>Generate large ZIPs of PDFs</title>
         <link rel="stylesheet" href="style.css"/>
-        <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@5.0.0/bundles/stomp.umd.js"></script>
-        <script src="//code.jquery.com/jquery-3.3.1.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.1/dist/sockjs.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.js"></script>
+        <script src="//code.jquery.com/jquery-3.7.1.js"></script>
         <script th:inline="javascript">
             var WEBSOCKET_BASE = /*[[${@environment.getProperty('WEBSOCKET_BASE')}]]*/ "";
             if(WEBSOCKET_BASE === 'null') WEBSOCKET_BASE = null;

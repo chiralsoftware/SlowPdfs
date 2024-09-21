@@ -14,10 +14,10 @@ $(document).ready(function () {
 function startTask() {
     $(this).prop('disabled', true);
     
-    var form = new FormData();
+    const form = new FormData();
     form.append("number", $('#number').val());
     
-    request = new Request('start', {
+    const request = new Request('start', {
         method: 'POST' ,
         body: form
     });
@@ -33,12 +33,14 @@ function complete(data) {
 function connect() {
 //    var socket = 'ws://localhost:8080/SlowPdfs/mystatus';
 
-    stompClient = new StompJs.Client({
-        brokerURL: WEBSOCKET_URL,
-        reconnectDelay: 1000,
-        heartbeatIncoming: 1000,
-        heartbeatOutgoing: 1000
-    });
+    const socket = new SockJS("mystatus");
+    const stompClient = StompJs.Stomp.over(socket);
+    // stompClient = new StompJs.Client({
+    //     brokerURL: "mystatus",
+    //     reconnectDelay: 1000,
+    //     heartbeatIncoming: 1000,
+    //     heartbeatOutgoing: 1000
+    // });
     
     stompClient.onConnect = function (frame) {
         stompClient.subscribe('/topic/status', function (messageOutput) {
