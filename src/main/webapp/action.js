@@ -31,17 +31,23 @@ function complete(data) {
 }
 
 function connect() {
-//    var socket = 'ws://localhost:8080/SlowPdfs/mystatus';
 
     const socket = new SockJS("mystatus");
+
+    const client = new StompJs.Client({
+        webSocketFactory: () => socket,
+        connectHeaders: { Authorization: `Bearer my-token` },
+        onConnect: () => { console.log("Connected"); },
+        onStompError: (frame) => {
+            console.error('broker reported error: ' + frame.headers['message']);
+        }
+    });
+    client.activate();
+    // fix this - merge the subscribe code into this socket above
+    // and fix the Spring side to change for the auth token
+
     const stompClient = StompJs.Stomp.over(socket);
-    // stompClient = new StompJs.Client({
-    //     brokerURL: "mystatus",
-    //     reconnectDelay: 1000,
-    //     heartbeatIncoming: 1000,
-    //     heartbeatOutgoing: 1000
-    // });
-    
+
     stompClient.onConnect = function (frame) {
         stompClient.subscribe('/topic/status', function (messageOutput) {
             console.log("New Message: " + messageOutput);
